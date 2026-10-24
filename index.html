@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MEALGO — Food Delivery Demo Preview</title>
+<style>
+:root {
+  --site-primary: #153E35;
+  --site-secondary: #F2B544;
+  --site-background: #F6F8F4;
+  --site-on-primary: #FFFFFF;
+  --site-on-secondary: #263326;
+  --site-on-background: #18271E;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+}
+* { box-sizing: border-box; }
+body { margin: 0; font-family: var(--site-font-body); color: light-dark(#18271E,#F0F5F0); background: var(--site-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); }
+button, input, select { font: inherit; }
+button { cursor: pointer; border: 0; border-radius: calc(12px * var(--site-radius-scale)); padding: 11px 14px; font-weight: 700; }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #E5A92F; outline-offset: 2px; }
+.primary { background: var(--site-primary); color: var(--site-on-primary); }
+.secondary { background: var(--site-secondary); color: var(--site-on-secondary); }
+.ghost { background: transparent; color: var(--site-primary); border: 1px solid #D6E1D8; }
+.topbar { background: var(--site-primary); color: white; padding: 18px max(18px, calc((100vw - 1100px)/2)); display:flex; justify-content:space-between; align-items:center; gap:16px; }
+.brand { display:flex; align-items:center; gap:11px; }
+.logo { background:white; color:var(--site-primary); border-radius:14px; width:46px;height:46px;display:grid;place-items:center;font-size:24px; }
+h1,h2,h3,p { margin-top:0; }
+h1 { font-size: calc(24px * var(--site-heading-scale)); margin:0; }
+h2 { font-size: calc(21px * var(--site-heading-scale)); margin-bottom:12px; }
+h3 { font-size:17px; margin-bottom:7px; }
+.sub { color:#DCEFE3; margin-top:4px; font-size:13px; }
+.wrap { max-width:1100px; margin:auto; padding:22px 18px 36px; }
+.tabs { display:flex; gap:8px; overflow:auto; padding:4px 0 18px; }
+.tab { background:#E8EFE8; color:#355442; white-space:nowrap; }
+.tab.active { background:var(--site-primary); color:white; }
+.hero { background:#EAF1EC; border-radius:20px; padding:22px; display:flex; gap:20px; align-items:center; justify-content:space-between; margin-bottom:20px; border:1px solid #DCE7DF; }
+.hero p { max-width:610px; line-height:1.5; margin:8px 0 0; color:#45614E; }
+.pill { display:inline-block; border-radius:99px; padding:6px 10px; background:#FFF0C9; color:#6B4A00; font-size:12px; font-weight:800; }
+.grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:14px; }
+.card { background:light-dark(#FFFFFF,#202B23); border:1px solid light-dark(#E1E8E1,#3A483D); border-radius:17px; padding:16px; box-shadow:0 2px 9px rgb(20 50 30 / 4%); }
+.foodicon { height:104px; display:grid; place-items:center; border-radius:13px; background:#F0F5EB; font-size:46px; margin-bottom:12px; }
+.muted { color:light-dark(#6B7C70,#B6C5B9); font-size:13px; line-height:1.45; }
+.price { color:var(--site-primary); font-size:19px; font-weight:850; }
+.cardrow { display:flex; justify-content:space-between; align-items:center; gap:10px; }
+.pair { display:grid; grid-template-columns:1.4fr 1fr; gap:16px; margin-top:18px; }
+.listrow { display:flex; justify-content:space-between; gap:12px; align-items:center; border-bottom:1px solid light-dark(#E5EBE5,#39443B); padding:12px 0; }
+.listrow:last-child { border-bottom:0; }
+.statgrid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:16px 0; }
+.stat { background:light-dark(#FFFFFF,#202B23); border:1px solid light-dark(#E1E8E1,#3A483D); padding:16px; border-radius:15px; }
+.stat strong { display:block; font-size:25px; margin-top:7px; color:var(--site-primary); }
+.formgrid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+label { display:block; font-weight:700; font-size:13px; margin-bottom:6px; }
+input,select { width:100%; padding:12px; border-radius:10px; border:1px solid #C9D6CB; background:light-dark(#FFFFFF,#19231B); color:light-dark(#18271E,#F0F5F0); }
+.notice { background:#FFF3D8; color:#674A10; border-radius:13px; padding:13px; font-size:13px; line-height:1.5; }
+.cartline { display:flex; align-items:center; justify-content:space-between; gap:10px; padding:11px 0; border-bottom:1px solid #E3EAE3; }
+.qty { display:flex; gap:7px; align-items:center; }
+.qty button { padding:5px 10px; }
+.hidden { display:none !important; }
+footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
+@media(max-width:760px){ .grid{grid-template-columns:repeat(2,minmax(0,1fr));}.pair{grid-template-columns:1fr}.hero{align-items:flex-start; flex-direction:column}.statgrid{grid-template-columns:1fr 1fr}.topbar{padding:14px 16px}.wrap{padding:16px 12px 28px} }
+@media(max-width:420px){.grid{grid-template-columns:1fr 1fr;gap:9px}.card{padding:10px}.foodicon{height:80px;font-size:38px}.formgrid{grid-template-columns:1fr}.statgrid{grid-template-columns:1fr 1fr}.topbar .sub{display:none}}
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand"><div class="logo">🍽️</div><div><h1>MEALGO</h1><div class="sub">Your Cravings, Delivered.</div></div></div>
+  <button class="secondary" id="cartTop" onclick="go('customer')">🛍️ Cart <span id="cartCount">0</span></button>
+</header>
+<main class="wrap">
+  <div class="tabs" role="navigation" aria-label="Preview sections">
+    <button class="tab active" data-page="customer" onclick="go('customer')">Customer app</button>
+    <button class="tab" data-page="admin" onclick="go('admin')">Owner dashboard</button>
+    <button class="tab" data-page="restaurant" onclick="go('restaurant')">Restaurant view</button>
+    <button class="tab" data-page="rider" onclick="go('rider')">Rider view</button>
+  </div>
+  <section id="customer">
+    <div class="hero"><div><span class="pill">DEMO PREVIEW · SAMPLE MENU</span><h2 style="margin-top:12px;font-size:29px">What are you craving today?</h2><p>MEALGO is designed to start in one service area and expand city by city across the Philippines. Browse sample meals and try the checkout flow. This demo does not send real orders or take payments.</p></div><div style="font-size:68px" aria-hidden="true">🍔 🥤</div></div>
+    <div class="card" style="margin-bottom:17px"><div class="formgrid"><div><label for="barangay">Choose service area</label><select id="barangay" required><option value="">Choose service area (demo)</option><option value="Can-avid, Eastern Samar — sample area">Can-avid, Eastern Samar — sample area</option><option value="Tacloban City — future area, demo only">Tacloban City — future area, demo only</option><option value="Cebu City — future area, demo only">Cebu City — future area, demo only</option><option value="Metro Manila — future area, demo only">Metro Manila — future area, demo only</option><option value="Another city or municipality — future area, demo only">Another city or municipality — future area, demo only</option></select><p class="muted" style="margin:7px 0 0">Locations are examples only. No delivery area is currently confirmed as live.</p></div><div><label for="search">Search menu</label><input id="search" placeholder="Try burger, pancit…" oninput="renderMenu()"></div></div></div>
+    <div class="tabs" id="categories"><button class="tab active" onclick="setCategory('All',this)">All food</button><button class="tab" onclick="setCategory('Meals',this)">Rice & meals</button><button class="tab" onclick="setCategory('Snacks',this)">Snacks</button><button class="tab" onclick="setCategory('Drinks',this)">Drinks</button></div>
+    <div id="menu" class="grid"></div>
+    <div class="pair"><div class="card"><h2>Your cart <span class="muted" id="cartSubtitle">(0 items)</span></h2><div id="cartItems" class="muted">Add an item to try the checkout.</div><div class="listrow"><strong>Food subtotal</strong><strong id="subtotal">₱0.00</strong></div><p class="muted">Delivery fee is confirmed separately based on distance and rider cost.</p><button class="primary" onclick="showCheckout()">Continue to checkout</button></div><div class="card"><h3>How ordering works</h3><div class="listrow"><span>1. Choose your food</span><span>🍱</span></div><div class="listrow"><span>2. Enter delivery details</span><span>📍</span></div><div class="listrow"><span>3. Confirm fee and payment</span><span>💵</span></div><div class="listrow"><span>4. Get order status updates</span><span>🛵</span></div></div></div>
+    <div id="checkout" class="card hidden" style="margin-top:16px"><h2>Checkout demo</h2><div class="notice">Practice mode only. This creates a temporary sample order inside this preview. It does not notify a real restaurant or rider. Select a demo service area before placing the sample order.</div><div class="formgrid" style="margin-top:14px"><div><label for="custName">Customer name</label><input id="custName" placeholder="Full name" autocomplete="name"></div><div><label for="custPhone">Mobile number</label><input id="custPhone" placeholder="09xx xxx xxxx" inputmode="tel" autocomplete="tel"></div><div><label for="custAddress">Street / landmark</label><input id="custAddress" placeholder="Near…" autocomplete="street-address"></div><div><label for="pay">Payment method</label><select id="pay"><option>Cash on delivery (proposed)</option><option>Digital payment (later)</option></select></div></div><p style="margin-top:14px"><button class="primary" onclick="submitDemoOrder()">Place sample order</button> <button class="ghost" onclick="document.getElementById('checkout').classList.add('hidden')">Close</button></p><div id="checkoutMessage" class="muted" role="status" aria-live="polite"></div></div>
+    <div class="card" style="margin-top:16px"><h2>Track your sample orders</h2><p class="muted">Status updates from the demo restaurant and rider appear here. This is not live tracking.</p><div id="customerOrders" class="muted">No sample orders yet. Your demo orders will appear here after checkout.</div></div>
+  </section>
+  <section id="admin" class="hidden">
+    <div class="hero"><div><span class="pill">OWNER ONLY · DEMO</span><h2 style="margin-top:12px">One simple place to run the business</h2><p>See sample order activity, partner restaurants and riders in one place. These figures are demo data; no live partners, orders, or revenue are connected.</p></div><div style="font-size:60px">📊</div></div>
+    <div class="statgrid"><div class="stat"><span class="muted">Today's orders</span><strong id="adminOrders">0</strong><span class="muted">Demo session</span></div><div class="stat"><span class="muted">Sample food sales</span><strong id="adminSales">₱0</strong><span class="muted">Not actual revenue</span></div><div class="stat"><span class="muted">Partners onboarded</span><strong>0 / 5</strong><span class="muted">Pilot goal</span></div></div>
+    <div class="pair"><div class="card"><h2>Order control</h2><div id="orderList" class="muted">No demo orders yet. Add an item in the Customer app to test the flow.</div><p class="muted" style="margin-top:12px">A real launch needs secure order storage, status history, access controls and backups.</p></div><div class="card"><h2>Quick setup checklist</h2><div class="listrow"><span>Restaurant agreements</span><span class="pill">Pending</span></div><div class="listrow"><span>Rider rates and service zone</span><span class="pill">Pending</span></div><div class="listrow"><span>Customer support contact</span><span class="pill">Pending</span></div><div class="listrow"><span>Business and safety checks</span><span class="pill">Pending</span></div></div></div>
+    <div class="pair"><div class="card"><h2>Restaurant partner interest</h2><p class="muted">Record a sample restaurant lead for the Can-avid pilot. This stays in this browser session only.</p><form onsubmit="addPartnerLead(event,'restaurant')"><div><label for="restName">Restaurant / food business name</label><input id="restName" required placeholder="Business name"></div><div style="margin-top:10px"><label for="restContact">Contact person and mobile</label><input id="restContact" required placeholder="Name · 09xx…"></div><div style="margin-top:10px"><label for="restLocation">Location / landmark</label><input id="restLocation" required placeholder="Barangay or nearby landmark"></div><button class="primary" style="margin-top:12px" type="submit">Save sample lead</button></form></div><div class="card"><h2>Rider partner interest</h2><p class="muted">Record a sample independent rider lead. Do not use this demo to collect sensitive identity documents.</p><form onsubmit="addPartnerLead(event,'rider')"><div><label for="riderName">Rider name</label><input id="riderName" required placeholder="Full name"></div><div style="margin-top:10px"><label for="riderContact">Mobile number</label><input id="riderContact" required inputmode="tel" placeholder="09xx xxx xxxx"></div><div style="margin-top:10px"><label for="riderVehicle">Vehicle type</label><select id="riderVehicle" required><option value="">Choose vehicle</option><option>Motorcycle</option><option>Bicycle</option><option>Other</option></select></div><button class="primary" style="margin-top:12px" type="submit">Save sample lead</button></form></div></div><div class="card" style="margin-top:16px"><h2>Sample partner leads</h2><p class="muted">Temporary demo records only; they disappear when the page session resets. No one is contacted automatically.</p><div id="partnerLeads" class="muted">No sample partner leads yet.</div></div>
+  </section>
+  <section id="restaurant" class="hidden">
+    <div class="hero"><div><span class="pill">RESTAURANT VIEW · DEMO</span><h2 style="margin-top:12px">Easy for busy food sellers</h2><p>Practice accepting a sample order, preparing food, and marking it ready for pickup. This screen is not connected to real restaurant accounts or notifications.</p></div><div style="font-size:60px">👩‍🍳</div></div>
+    <div class="card"><h2>Incoming orders</h2><div class="notice">Restaurant routine: tap Accept, prepare the food, then tap Ready for pickup. Reject only if you cannot prepare the order.</div><div id="restaurantOrders" class="muted" style="margin-top:12px">No demo orders yet. Place a sample order from Customer app to practice.</div><p class="muted" style="margin-top:12px">Practice buttons work in this preview only. Real restaurant phones need a connected database, login and notifications.</p></div>
+  </section>
+  <section id="rider" class="hidden">
+    <div class="hero"><div><span class="pill">PARTNER RIDER VIEW · DEMO</span><h2 style="margin-top:12px">Clear delivery instructions</h2><p>Practice viewing a sample delivery and updating its status. Real rider accounts, assignments, GPS location, and notifications are not connected.</p></div><div style="font-size:60px">🛵</div></div>
+    <div class="card"><h2>Assigned deliveries</h2><div class="notice">Rider routine: accept the assigned delivery, collect the food, then mark it Delivered after handing it to the customer.</div><div id="riderOrders" class="muted" style="margin-top:12px">No demo deliveries yet. Accept a sample order in Restaurant view and mark it Ready for pickup.</div><p class="muted" style="margin-top:12px">Practice buttons work in this preview only. Real rider accounts and live location are not connected.</p></div>
+  </section>
+</main>
+<footer>MEALGO · Your Cravings, Delivered. · Interactive demo only · Not a live ordering service · Service areas are illustrative and not confirmed live</footer>
+</div>
+<script>
+const products=[
+ {id:1,name:'Chicken rice meal',shop:'Sample Kitchen',price:99,category:'Meals',emoji:'🍗'},
+ {id:2,name:'Classic burger',shop:'Sample Burger Shop',price:79,category:'Snacks',emoji:'🍔'},
+ {id:3,name:'Pancit special',shop:'Sample Eatery',price:89,category:'Meals',emoji:'🍜'},
+ {id:4,name:'Milk tea',shop:'Sample Drinks Shop',price:69,category:'Drinks',emoji:'🧋'},
+ {id:5,name:'Cheese fries',shop:'Sample Snack Corner',price:65,category:'Snacks',emoji:'🍟'},
+ {id:6,name:'Silog breakfast',shop:'Sample Carinderia',price:95,category:'Meals',emoji:'🍳'}
+];
+let cart={}, category='All', orders=[], orderNo=1001, partnerLeads=[];
+const money=n=>'₱'+Number(n).toFixed(2);
+function go(page){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
+function setCategory(value,btn){category=value;document.querySelectorAll('#categories .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMenu();}
+function renderMenu(){const q=(document.getElementById('search')?.value||'').toLowerCase();const list=products.filter(p=>(category==='All'||p.category===category)&&(p.name+' '+p.shop).toLowerCase().includes(q));document.getElementById('menu').innerHTML=list.map(p=>`<article class="card"><div class="foodicon">${p.emoji}</div><div class="muted">${p.shop}</div><h3>${p.name}</h3><div class="cardrow"><span class="price">${money(p.price)}</span><button class="primary" aria-label="Add ${p.name}" onclick="add(${p.id})">+ Add</button></div></article>`).join('')||'<p>No matching sample items.</p>';}
+function add(id){cart[id]=(cart[id]||0)+1;renderCart();}
+function change(id,delta){cart[id]=(cart[id]||0)+delta;if(cart[id]<=0)delete cart[id];renderCart();}
+function renderCart(){let count=Object.values(cart).reduce((a,b)=>a+b,0),sub=products.reduce((s,p)=>s+p.price*(cart[p.id]||0),0);document.getElementById('cartCount').textContent=count;document.getElementById('cartSubtitle').textContent=`(${count} item${count===1?'':'s'})`;document.getElementById('subtotal').textContent=money(sub);const entries=products.filter(p=>cart[p.id]);document.getElementById('cartItems').innerHTML=entries.length?entries.map(p=>`<div class="cartline"><div><strong>${p.name}</strong><div class="muted">${money(p.price)} each</div></div><div class="qty"><button class="ghost" onclick="change(${p.id},-1)" aria-label="Remove one">−</button><strong>${cart[p.id]}</strong><button class="ghost" onclick="change(${p.id},1)" aria-label="Add one">+</button></div></div>`).join(''):'Add an item to try the checkout.';}
+function showCheckout(){if(!Object.keys(cart).length){alert('Add a sample menu item first.');return;}document.getElementById('checkout').classList.remove('hidden');document.getElementById('checkout').scrollIntoView({behavior:'smooth',block:'start'});}
+function submitDemoOrder(){const name=document.getElementById('custName').value.trim(),phone=document.getElementById('custPhone').value.trim(),address=document.getElementById('custAddress').value.trim(),serviceArea=document.getElementById('barangay').value;if(!serviceArea){document.getElementById('checkoutMessage').textContent='Please choose a demo service area first. These locations are examples only, not confirmed live delivery areas.';document.getElementById('barangay').focus();return;}if(!name||!phone||!address){document.getElementById('checkoutMessage').textContent='Please enter the customer name, mobile number and delivery landmark to continue.';return;}const items=products.filter(p=>cart[p.id]).map(p=>({name:p.name,shop:p.shop,qty:cart[p.id],price:p.price}));if(!items.length){document.getElementById('checkoutMessage').textContent='Your cart is empty.';return;}const subtotal=items.reduce((sum,p)=>sum+p.price*p.qty,0);orders.unshift({id:orderNo++,name,phone,address,serviceArea,payment:document.getElementById('pay').value,items,subtotal,status:'New order — waiting for restaurant',created:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});cart={};renderCart();renderOrders();document.getElementById('checkoutMessage').textContent='Sample order created in this demo only. It is not sent to a real restaurant or rider. You can practice the status flow in Restaurant, Owner, and Rider views.';document.getElementById('checkout').classList.add('hidden');go('restaurant');}
+function updateOrder(id,status){const order=orders.find(o=>o.id===id);if(!order)return;order.status=status;renderOrders();}
+function addPartnerLead(event,type){event.preventDefault();const isRestaurant=type==='restaurant';const name=document.getElementById(isRestaurant?'restName':'riderName').value.trim();const contact=document.getElementById(isRestaurant?'restContact':'riderContact').value.trim();const detail=isRestaurant?document.getElementById('restLocation').value.trim():document.getElementById('riderVehicle').value;partnerLeads.unshift({type,name,contact,detail,created:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});renderPartnerLeads();event.target.reset();}
+function renderPartnerLeads(){const el=document.getElementById('partnerLeads');if(!el)return;el.innerHTML=partnerLeads.length?partnerLeads.map(p=>`<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>${p.type==='restaurant'?'Restaurant lead':'Rider lead'}: ${escapeText(p.name)}</strong><span class="pill">Demo lead</span></div><p class="muted" style="margin:8px 0">Contact: ${escapeText(p.contact)}<br>${p.type==='restaurant'?'Location':'Vehicle'}: ${escapeText(p.detail)}<br>Recorded: ${escapeText(p.created)}</p></article>`).join(''):'No sample partner leads yet.';}
+function orderCard(o,role){const items=o.items.map(i=>`${i.qty} × ${i.name}`).join(', ');let actions='';if(role==='restaurant'&&o.status==='New order — waiting for restaurant')actions=`<button class="primary" onclick="updateOrder(${o.id},'Accepted by restaurant — preparing')">Accept order</button> <button class="ghost" onclick="updateOrder(${o.id},'Rejected by restaurant')">Reject</button>`;else if(role==='restaurant'&&o.status==='Accepted by restaurant — preparing')actions=`<button class="primary" onclick="updateOrder(${o.id},'Ready for pickup — assign a rider')">Ready for pickup</button>`;else if(role==='rider'&&o.status==='Ready for pickup — assign a rider')actions=`<button class="primary" onclick="updateOrder(${o.id},'Rider picked up — on the way')">Picked up</button>`;else if(role==='rider'&&o.status==='Rider picked up — on the way')actions=`<button class="primary" onclick="updateOrder(${o.id},'Delivered — completed')">Mark delivered</button>`;return `<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>Order #${o.id}</strong><span class="pill">${o.created}</span></div><p class="muted" style="margin:8px 0">${items}</p><div><strong>${money(o.subtotal)}</strong> food subtotal</div><p class="muted" style="margin:7px 0">Customer: ${escapeText(o.name)} · ${escapeText(o.phone)}<br>Service area: ${escapeText(o.serviceArea||'Not selected')}<br>Landmark: ${escapeText(o.address)}<br>Payment: ${escapeText(o.payment)}</p><p><strong>Status:</strong> ${escapeText(o.status)}</p>${actions}</article>`;}
+function customerOrderCard(o){const items=o.items.map(i=>`${i.qty} × ${i.name}`).join(', ');return `<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>Order #${o.id}</strong><span class="pill">${escapeText(o.created)}</span></div><p class="muted" style="margin:8px 0">${escapeText(items)}</p><p class="muted">Service area: ${escapeText(o.serviceArea)}</p><p><strong>Food subtotal:</strong> ${money(o.subtotal)}</p><p><strong>Current status:</strong> ${escapeText(o.status)}</p><span class="muted">Demo status only · no real delivery tracking</span></article>`;}
+function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderOrders(){const admin=document.getElementById('orderList'),restaurant=document.getElementById('restaurantOrders'),rider=document.getElementById('riderOrders'),customer=document.getElementById('customerOrders');admin.innerHTML=orders.length?orders.map(o=>orderCard(o,'admin')).join(''):'No demo orders yet. Add an item in the Customer app to test the flow.';restaurant.innerHTML=orders.filter(o=>!o.status.startsWith('Rejected')&&!o.status.startsWith('Delivered')).length?orders.filter(o=>!o.status.startsWith('Rejected')&&!o.status.startsWith('Delivered')).map(o=>orderCard(o,'restaurant')).join(''):'No active restaurant orders.';rider.innerHTML=orders.filter(o=>o.status.startsWith('Ready for pickup')||o.status.startsWith('Rider picked up')).length?orders.filter(o=>o.status.startsWith('Ready for pickup')||o.status.startsWith('Rider picked up')).map(o=>orderCard(o,'rider')).join(''):'No deliveries ready yet. Restaurant must accept an order and mark it Ready for pickup first.';customer.innerHTML=orders.length?orders.map(o=>customerOrderCard(o)).join(''):'No sample orders yet. Your demo orders will appear here after checkout.';document.getElementById('adminOrders').textContent=orders.length;document.getElementById('adminSales').textContent=money(orders.filter(o=>o.status.startsWith('Delivered')).reduce((sum,o)=>sum+o.subtotal,0));}
+renderMenu();renderCart();
+</script>
+
+<!--sites-preview-theme:start-->
+<style data-sites-preview-theme>:root{--site-primary:#2c6732 !important;--site-on-primary:#ffffff !important;--site-background:#f9dc78 !important;--site-on-background:#000000 !important;--site-radius-scale:1.5 !important;--site-heading-scale:0.9 !important}</style>
+<script type="application/json" data-sites-preview-theme>{"appearance":"custom","primary":"#2c6732","secondary":"#f2b544","background":"#f9dc78","typography":"original","spacing":null,"roundness":1.5,"headingScale":0.9,"decorationOpacity":null}</script>
+<!--sites-preview-theme:end-->
+</body></html>
