@@ -108,7 +108,7 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script> 
-const MEALGO_SUPABASE_URL = 'https://tcaetnndomrxootbifgu.supabase.co/rest/v1/';
+const MEALGO_SUPABASE_URL = 'https://tcaetnndomrxootbifgu.supabase.co';
 const MEALGO_SUPABASE_KEY = 'sb_publishable_wn_bnsNIu0XvQySZX4anQw_bpunHjdW';
 const mealgoSupabase = window.supabase.createClient(MEALGO_SUPABASE_URL, MEALGO_SUPABASE_KEY);
 mealgoSupabase.from('menu_items').select('id').limit(1).then(({data,error})=>console.log('MEALGO connection test:',{data,error}));
