@@ -116,7 +116,8 @@ mealgoSupabase
   .select('id, name, price')
   .then(({ data, error }) => {
     console.log('MEALGO menu test:', { data, error });
-  });.then(({data,error})=>console.log('MEALGO connection test:',{data,error}));
+  });
+  then(({data,error})=>console.log('MEALGO connection test:',{data,error}));
 const products=[
  {id:1,name:'4pcs Takoyaki classic',shop:'Sample Kitchen',price:59,category:'Snacks',emoji:'🍗'},
  {id:2,name:'Classic burger',shop:'Sample Burger Shop',price:79,category:'Snacks',emoji:'🍔'},
