@@ -113,7 +113,7 @@ const MEALGO_SUPABASE_KEY = 'sb_publishable_wn_bnsNIu0XvQySZX4anQw_bpunHjdW';
 const mealgoSupabase = window.supabase.createClient(MEALGO_SUPABASE_URL, MEALGO_SUPABASE_KEY);
 mealgoSupabase
   .from('menu_items')
-  .select('id, name, price')
+  .select('id, name, price_php')
   .then(({ data, error }) => {
     console.log('MEALGO menu test:', { data, error });
   });
