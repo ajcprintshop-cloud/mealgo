@@ -116,15 +116,18 @@ mealgoSupabase
   .select('id, name, price_php')
   .then(({ data, error }) => {
     console.log('MEALGO menu test:', { data, error });
-  });
-const products=[];
+ 
+});
+const products = [];
+let cart = {}, category = 'All', orders = [], orderNo = 1001, partnerLeads = [];
+
   '4pcs Takoyaki classic',shop:'Sample Kitchen',price:59,category:'Snacks',emoji:'🍗'},
   'Classic burger',shop:'Sample Burger Shop',price:25,category:'Snacks',emoji:'🍔'},
   'Pancit special',shop:'Sample Eatery',price:89,category:'Meals',emoji:'🍜'},
   'Milk tea',shop:'Sample Drinks Shop',price:59,category:'Drinks',emoji:'🧋'},
   'Cheese fries',shop:'Sample Snack Corner',price:50,category:'Snacks',emoji:'🍟'},
   'Silog breakfast',shop:'Sample Carinderia',price:95,category:'Meals',emoji:'🍳'},
-});
+  
 let cart={}, category='All', orders=[], orderNo=1001, partnerLeads=[];
   async function loadMealgoMenu() {
   const menuBox = document.getElementById('menu');
