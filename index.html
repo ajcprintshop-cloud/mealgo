@@ -111,8 +111,9 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
 const MEALGO_SUPABASE_URL = 'https://tcaetnndomrxootbifgu.supabase.co/rest/v1/';
 const MEALGO_SUPABASE_KEY = 'sb_publishable_wn_bnsNIu0XvQySZX4anQw_bpunHjdW';
 const mealgoSupabase = window.supabase.createClient(MEALGO_SUPABASE_URL, MEALGO_SUPABASE_KEY);
+  mealgoSupabase.from('menu_items').select('id').limit(1).then(({data,error})=>console.log('MEALGO connection test:',{data,error}));
 const products=[
- {id:1,name:'Chicken rice meal',shop:'Sample Kitchen',price:99,category:'Meals',emoji:'🍗'},
+ {id:1,name:'4pcs Takoyaki classic ',shop:'Sample Kitchen',price:59,category:'Snacks',emoji:'🍗'},
  {id:2,name:'Classic burger',shop:'Sample Burger Shop',price:79,category:'Snacks',emoji:'🍔'},
  {id:3,name:'Pancit special',shop:'Sample Eatery',price:89,category:'Meals',emoji:'🍜'},
  {id:4,name:'Milk tea',shop:'Sample Drinks Shop',price:69,category:'Drinks',emoji:'🧋'},
