@@ -126,6 +126,49 @@ const products=[];
  {id:6,name:'Silog breakfast',shop:'Sample Carinderia',price:95,category:'Meals',emoji:'🍳'
 const products=[];
 let cart={}, category='All', orders=[], orderNo=1001, partnerLeads=[];
+  async function loadMealgoMenu() {
+  const menuBox = document.getElementById('menu');
+  menuBox.innerHTML = '<p>Loading MEALGO menu...</p>';
+
+  const { data, error } = await mealgoSupabase
+    .from('menu_items')
+    .select('id, name, price_php, category, restaurant_id')
+    .eq('is_available', true);
+
+  if (error) {
+    console.error('MEALGO menu error:', error);
+    menuBox.innerHTML = '<p>Could not load menu. Please try again later.</p>';
+    return;
+  }
+
+  const { data: restaurants, error: restaurantError } =
+    await mealgoSupabase
+      .from('restaurants')
+      .select('id, business_name')
+      .eq('is_approved', true);
+
+  if (restaurantError) {
+    console.error('MEALGO restaurant error:', restaurantError);
+    menuBox.innerHTML = '<p>Could not load restaurants.</p>';
+    return;
+  }
+
+  const shopNames = Object.fromEntries(
+    (restaurants || []).map(r => [r.id, r.business_name])
+  );
+
+  products.splice(0, products.length, ...(data || []).map(item => ({
+    id: item.id,
+    name: item.name,
+    shop: shopNames[item.restaurant_id] || 'MEALGO Partner',
+    price: Number(item.price_php),
+    category: item.category || 'Meals',
+    emoji: '🍽️'
+  })));
+
+  renderMenu();
+  renderCart();
+}
 const money=n=>'₱'+Number(n).toFixed(2);
 function go(page){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
 function setCategory(value,btn){category=value;document.querySelectorAll('#categories .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMenu();}
