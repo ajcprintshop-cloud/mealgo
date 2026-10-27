@@ -81,6 +81,24 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
     <button class="tab" data-page="rider" onclick="go('rider')">Rider view</button>
   </div>
   <section id="customer">
+  <div class="card" style="margin-bottom:17px">
+  <h2>MEALGO Customer Login</h2>
+  <p class="muted">Mag-login o gumawa ng account para makapag-order.</p>
+
+  <label for="customerEmail">Email address</label>
+  <input id="customerEmail" type="email" placeholder="Enter your email" autocomplete="email" required>
+
+  <label for="customerPassword" style="display:block;margin-top:10px">Password</label>
+  <input id="customerPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required>
+
+  <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap">
+    <button class="btn" type="button" onclick="mealgoLogin()">Login</button>
+    <button class="btn" type="button" onclick="mealgoSignUp()">Create Account</button>
+    <button class="btn" type="button" onclick="mealgoLogout()">Logout</button>
+  </div>
+
+  <p id="authMessage" role="status" aria-live="polite" style="margin-top:12px"></p>
+</div>
     <div class="hero"><div><span class="pill">DEMO PREVIEW · SAMPLE MENU</span><h2 style="margin-top:12px;font-size:29px">What are you craving today?</h2><p>MEALGO is designed to start in one service area and expand city by city across the Philippines. Browse sample meals and try the checkout flow. This demo does not send real orders or take payments.</p></div><div style="font-size:68px" aria-hidden="true">🍔 🥤</div></div>
     <div class="card" style="margin-bottom:17px"><div class="formgrid"><div><label for="barangay">Choose service area</label><select id="barangay" required><option value="">Choose service area (demo)</option><option value="Can-avid, Eastern Samar — sample area">Can-avid, Eastern Samar — sample area</option><option value="Tacloban City — future area, demo only">Tacloban City — future area, demo only</option><option value="Cebu City — future area, demo only">Cebu City — future area, demo only</option><option value="Metro Manila — future area, demo only">Metro Manila — future area, demo only</option><option value="Another city or municipality — future area, demo only">Another city or municipality — future area, demo only</option></select><p class="muted" style="margin:7px 0 0">Locations are examples only. No delivery area is currently confirmed as live.</p></div><div><label for="search">Search menu</label><input id="search" placeholder="Try burger, pancit…" oninput="renderMenu()"></div></div></div>
     <div class="tabs" id="categories"><button class="tab active" onclick="setCategory('All',this)">All food</button><button class="tab" onclick="setCategory('Meals',this)">Rice & meals</button><button class="tab" onclick="setCategory('Snacks',this)">Snacks</button><button class="tab" onclick="setCategory('Drinks',this)">Drinks</button></div>
