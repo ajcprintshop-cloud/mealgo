@@ -167,7 +167,13 @@ let category = 'All', orders = [], orderNo = 1001, partnerLeads = [];
 
   message.textContent = 'Login successful! You are signed in.';
   document.getElementById('customerPassword').value = '';
+  
   console.log('MEALGO customer logged in:', data.user?.id);
+  const { data: sessionCheck, error: sessionCheckError } =
+   await mealgoSupabase.auth.getSession();
+
+console.log('Session immediately after login:', !!sessionCheck.session);
+console.log('Session check error:', sessionCheckError?.message || 'None');
 }
 
 async function mealgoSignUp() {
