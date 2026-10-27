@@ -142,6 +142,80 @@ const products = [];
   
 let cart = {};
 let category = 'All', orders = [], orderNo = 1001, partnerLeads = [];
+  async function mealgoLogin() {
+  const email = document.getElementById('customerEmail').value.trim();
+  const password = document.getElementById('customerPassword').value;
+  const message = document.getElementById('authMessage');
+
+  if (!email || !password) {
+    message.textContent = 'Please enter your email and password.';
+    return;
+  }
+
+  message.textContent = 'Logging in...';
+
+  const { data, error } = await mealgoSupabase.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error('MEALGO login error:', error);
+    message.textContent = 'Login failed. Check your email and password.';
+    return;
+  }
+
+  message.textContent = 'Login successful! You are signed in.';
+  document.getElementById('customerPassword').value = '';
+  console.log('MEALGO customer logged in:', data.user?.id);
+}
+
+async function mealgoSignUp() {
+  const email = document.getElementById('customerEmail').value.trim();
+  const password = document.getElementById('customerPassword').value;
+  const message = document.getElementById('authMessage');
+
+  if (!email || !password) {
+    message.textContent = 'Please enter your email and password.';
+    return;
+  }
+
+  if (password.length < 8) {
+    message.textContent = 'Use a password with at least 8 characters.';
+    return;
+  }
+
+  message.textContent = 'Creating account...';
+
+  const { data, error } = await mealgoSupabase.auth.signUp({
+    email,
+    password
+  });
+
+  if (error) {
+    console.error('MEALGO sign-up error:', error);
+    message.textContent = 'Could not create account: ' + error.message;
+    return;
+  }
+
+  message.textContent = data.session
+    ? 'Account created! You are signed in.'
+    : 'Account created. Check your email to confirm, then log in.';
+  document.getElementById('customerPassword').value = '';
+}
+
+async function mealgoLogout() {
+  const message = document.getElementById('authMessage');
+  const { error } = await mealgoSupabase.auth.signOut();
+
+  if (error) {
+    console.error('MEALGO logout error:', error);
+    message.textContent = 'Logout failed. Please try again.';
+    return;
+  }
+
+  message.textContent = 'You have logged out.';
+}
   async function loadMealgoMenu() {
   const menuBox = document.getElementById('menu');
   menuBox.innerHTML = '<p>Loading MEALGO menu...</p>';
