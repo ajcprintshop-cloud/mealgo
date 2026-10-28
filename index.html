@@ -156,7 +156,7 @@ const products = [];
 let cart = {};
 let category = 'All', orders = [], orderNo = 1001, partnerLeads = [];
   
-  async function mealgoLogin() {
+async function mealgoLogin() {
   const email = document.getElementById('customerEmail').value.trim();
   const password = document.getElementById('customerPassword').value;
   const message = document.getElementById('authMessage');
@@ -273,9 +273,9 @@ async function mealgoUpdatePassword() {
 
   message.textContent = 'Password updated successfully! You can now log in with your new password.';
   document.getElementById('newPassword').value = '';
-}
+  }
 
-  async function mealgoLogout() {
+async function mealgoLogout() {
   const message = document.getElementById('authMessage');
   const { error } = await mealgoSupabase.auth.signOut();
 
@@ -284,9 +284,10 @@ async function mealgoUpdatePassword() {
     message.textContent = 'Logout failed. Please try again.';
     return;
   }
-
+    
   message.textContent = 'You have logged out.';
 }
+  
 async function loadMealgoMenu() {
   const menuBox = document.getElementById('menu');
   menuBox.innerHTML = '<p>Loading MEALGO menu...</p>';
@@ -300,7 +301,7 @@ async function loadMealgoMenu() {
     console.error('MEALGO menu error:', error);
     menuBox.innerHTML = '<p>Could not load menu. Please try again later.</p>';
     return;
-  }
+ }
   const { data: restaurants, error: restaurantError } =
     await mealgoSupabase
       .from('restaurants')
