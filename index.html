@@ -191,16 +191,7 @@ console.log('Session check error:', sessionCheckError?.message || 'None');
 
 async function mealgoSignUp() {
   async function mealgoForgotPassword() {
-    
-  const email = document.getElementById('customerEmail').value.trim();
-  const message = document.getElementById('authMessage');
-
-  if (!email) {
-    message.textContent = 'Please enter your email address first.';
-    return;
-  }
-
-  message.textContent = 'Sending password recovery email...';
+     message.textContent = 'Sending password recovery email...';
 
   const { error } = await mealgoSupabase.auth.resetPasswordForEmail(email, {
     redirectTo: window.location.origin + window.location.pathname
@@ -209,6 +200,14 @@ async function mealgoSignUp() {
   if (error) {
     console.error('MEALGO password recovery error:', error);
     message.textContent = 'Unable to send recovery email: ' + error.message;
+    return;
+  }
+ 
+  const email = document.getElementById('customerEmail').value.trim();
+  const message = document.getElementById('authMessage');
+
+  if (!email) {
+    message.textContent = 'Please enter your email address first.';
     return;
   }
 
