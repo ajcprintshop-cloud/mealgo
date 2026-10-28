@@ -190,30 +190,6 @@ console.log('Session check error:', sessionCheckError?.message || 'None');
 }
 
 async function mealgoSignUp() {
-  async function mealgoForgotPassword() {
-     message.textContent = 'Sending password recovery email...';
-
-  const { error } = await mealgoSupabase.auth.resetPasswordForEmail(email, {
-    redirectTo: window.location.origin + window.location.pathname
-  });
-
-  if (error) {
-    console.error('MEALGO password recovery error:', error);
-    message.textContent = 'Unable to send recovery email: ' + error.message;
-    return;
-  }
- 
-  const email = document.getElementById('customerEmail').value.trim();
-  const message = document.getElementById('authMessage');
-
-  if (!email) {
-    message.textContent = 'Please enter your email address first.';
-    return;
-  }
-
-  message.textContent =
-    'Recovery request submitted. Check your email inbox and spam folder.';
-}
   const email = document.getElementById('customerEmail').value.trim();
   const password = document.getElementById('customerPassword').value;
   const message = document.getElementById('authMessage');
@@ -244,7 +220,33 @@ async function mealgoSignUp() {
   message.textContent = data.session
     ? 'Account created! You are signed in.'
     : 'Account created. Check your email to confirm, then log in.';
+
   document.getElementById('customerPassword').value = '';
+}
+
+async function mealgoForgotPassword() {
+  const email = document.getElementById('customerEmail').value.trim();
+  const message = document.getElementById('authMessage');
+
+  if (!email) {
+    message.textContent = 'Please enter your email address first.';
+    return;
+  }
+
+  message.textContent = 'Sending password recovery email...';
+
+  const { error } = await mealgoSupabase.auth.resetPasswordForEmail(email, {
+    redirectTo: window.location.origin + window.location.pathname
+  });
+
+  if (error) {
+    console.error('MEALGO password recovery error:', error);
+    message.textContent = 'Unable to send recovery email: ' + error.message;
+    return;
+  }
+
+  message.textContent =
+    'Recovery request submitted. Check your email inbox and spam folder.';
 }
 
 async function mealgoLogout() {
