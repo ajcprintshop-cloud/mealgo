@@ -99,6 +99,12 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
   </div>
 
   <p id="authMessage" role="status" aria-live="polite" style="margin-top:12px"></p>
+    <div id="passwordResetForm" style="display:none;margin-top:14px">
+  <label for="newPassword">New Password</label>
+  <input id="newPassword" type="password" placeholder="Enter your new password" autocomplete="new-password" minlength="8">
+  <button class="btn" type="button" onclick="mealgoUpdatePassword()" style="margin-top:10px">Save New Password</button>
+  <p id="passwordResetMessage" role="status" aria-live="polite" style="margin-top:10px"></p>
+</div>
 </div>
     <div class="hero"><div><span class="pill">DEMO PREVIEW · SAMPLE MENU</span><h2 style="margin-top:12px;font-size:29px">What are you craving today?</h2><p>MEALGO is designed to start in one service area and expand city by city across the Philippines. Browse sample meals and try the checkout flow. This demo does not send real orders or take payments.</p></div><div style="font-size:68px" aria-hidden="true">🍔 🥤</div></div>
     <div class="card" style="margin-bottom:17px"><div class="formgrid"><div><label for="barangay">Choose service area</label><select id="barangay" required><option value="">Choose service area (demo)</option><option value="Can-avid, Eastern Samar — sample area">Can-avid, Eastern Samar — sample area</option><option value="Tacloban City — future area, demo only">Tacloban City — future area, demo only</option><option value="Cebu City — future area, demo only">Cebu City — future area, demo only</option><option value="Metro Manila — future area, demo only">Metro Manila — future area, demo only</option><option value="Another city or municipality — future area, demo only">Another city or municipality — future area, demo only</option></select><p class="muted" style="margin:7px 0 0">Locations are examples only. No delivery area is currently confirmed as live.</p></div><div><label for="search">Search menu</label><input id="search" placeholder="Try burger, pancit…" oninput="renderMenu()"></div></div></div>
@@ -131,7 +137,13 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
 const MEALGO_SUPABASE_URL = 'https://tcaetnndomrxootbifgu.supabase.co';
 const MEALGO_SUPABASE_KEY = 'sb_publishable_wn_bnsNIu0XvQySZX4anQw_bpunHjdW';
 const mealgoSupabase = window.supabase.createClient(MEALGO_SUPABASE_URL, MEALGO_SUPABASE_KEY);
-  
+  mealgoSupabase.auth.onAuthStateChange((event, session) => {
+  if (event === 'PASSWORD_RECOVERY') {
+    document.getElementById('passwordResetForm').style.display = 'block';
+    document.getElementById('passwordResetMessage').textContent =
+      'Enter your new password below.';
+  }
+});
 mealgoSupabase
   .from('menu_items')
   .select('id, name, price_php')
@@ -179,6 +191,7 @@ console.log('Session check error:', sessionCheckError?.message || 'None');
 
 async function mealgoSignUp() {
   async function mealgoForgotPassword() {
+    
   const email = document.getElementById('customerEmail').value.trim();
   const message = document.getElementById('authMessage');
 
@@ -261,6 +274,30 @@ async function mealgoLogout() {
     menuBox.innerHTML = '<p>Could not load menu. Please try again later.</p>';
     return;
   }
+    async function mealgoUpdatePassword() {
+  const password = document.getElementById('newPassword').value;
+  const message = document.getElementById('passwordResetMessage');
+
+  if (!password || password.length < 8) {
+    message.textContent = 'Please enter a password with at least 8 characters.';
+    return;
+  }
+
+  message.textContent = 'Updating your password...';
+
+  const { error } = await mealgoSupabase.auth.updateUser({
+    password: password
+  });
+
+  if (error) {
+    console.error('MEALGO password update error:', error);
+    message.textContent = 'Unable to update password: ' + error.message;
+    return;
+  }
+
+  message.textContent = 'Password updated successfully! You can now log in with your new password.';
+  document.getElementById('newPassword').value = '';
+}
 
   const { data: restaurants, error: restaurantError } =
     await mealgoSupabase
