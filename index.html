@@ -249,34 +249,8 @@ async function mealgoForgotPassword() {
   message.textContent =
     'Recovery request submitted. Check your email inbox and spam folder.';
 }
-
-async function mealgoLogout() {
-  const message = document.getElementById('authMessage');
-  const { error } = await mealgoSupabase.auth.signOut();
-
-  if (error) {
-    console.error('MEALGO logout error:', error);
-    message.textContent = 'Logout failed. Please try again.';
-    return;
-  }
-
-  message.textContent = 'You have logged out.';
-}
-  async function loadMealgoMenu() {
-  const menuBox = document.getElementById('menu');
-  menuBox.innerHTML = '<p>Loading MEALGO menu...</p>';
-
-  const { data, error } = await mealgoSupabase
-    .from('menu_items')
-    .select('id, name, price_php, category, restaurant_id')
-    .eq('is_available', true);
-
-  if (error) {
-    console.error('MEALGO menu error:', error);
-    menuBox.innerHTML = '<p>Could not load menu. Please try again later.</p>';
-    return;
-  }
-    async function mealgoUpdatePassword() {
+  
+async function mealgoUpdatePassword() {
   const password = document.getElementById('newPassword').value;
   const message = document.getElementById('passwordResetMessage');
 
@@ -301,6 +275,32 @@ async function mealgoLogout() {
   document.getElementById('newPassword').value = '';
 }
 
+  async function mealgoLogout() {
+  const message = document.getElementById('authMessage');
+  const { error } = await mealgoSupabase.auth.signOut();
+
+  if (error) {
+    console.error('MEALGO logout error:', error);
+    message.textContent = 'Logout failed. Please try again.';
+    return;
+  }
+
+  message.textContent = 'You have logged out.';
+}
+async function loadMealgoMenu() {
+  const menuBox = document.getElementById('menu');
+  menuBox.innerHTML = '<p>Loading MEALGO menu...</p>';
+
+  const { data, error } = await mealgoSupabase
+    .from('menu_items')
+    .select('id, name, price_php, category, restaurant_id')
+    .eq('is_available', true);
+
+  if (error) {
+    console.error('MEALGO menu error:', error);
+    menuBox.innerHTML = '<p>Could not load menu. Please try again later.</p>';
+    return;
+  }
   const { data: restaurants, error: restaurantError } =
     await mealgoSupabase
       .from('restaurants')
