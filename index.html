@@ -136,14 +136,36 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
   
 const MEALGO_SUPABASE_URL = 'https://tcaetnndomrxootbifgu.supabase.co';
 const MEALGO_SUPABASE_KEY = 'sb_publishable_wn_bnsNIu0XvQySZX4anQw_bpunHjdW';
-const mealgoSupabase = window.supabase.createClient(MEALGO_SUPABASE_URL, MEALGO_SUPABASE_KEY);
-  mealgoSupabase.auth.onAuthStateChange((event, session) => {
+
+const mealgoSupabase = window.supabase.createClient(
+  MEALGO_SUPABASE_URL,
+  MEALGO_SUPABASE_KEY,
+  {
+    auth: {
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true
+    }
+  }
+);
+
+mealgoSupabase.auth.onAuthStateChange((event, session) => {
   if (event === 'PASSWORD_RECOVERY') {
-    document.getElementById('passwordResetForm').style.display = 'block';
-    document.getElementById('passwordResetMessage').textContent =
-      'Enter your new password below.';
+    const resetForm = document.getElementById('passwordResetForm');
+    const resetMessage = document.getElementById('passwordResetMessage');
+
+    if (!session) {
+      resetForm.style.display = 'none';
+      resetMessage.textContent =
+        'Recovery session is invalid. Please request a new recovery link.';
+      return;
+    }
+
+    resetForm.style.display = 'block';
+    resetMessage.textContent = 'Enter your new password below.';
   }
 });
+
 mealgoSupabase
   .from('menu_items')
   .select('id, name, price_php')
@@ -274,7 +296,7 @@ async function mealgoUpdatePassword() {
   message.textContent = 'Password updated successfully! You can now log in with your new password.';
   document.getElementById('newPassword').value = '';
   }
-  
+
   window.mealgoSignUp = mealgoSignUp;
   window.mealgoForgotPassword = mealgoForgotPassword;
   window.mealgoUpdatePassword = mealgoUpdatePassword;
