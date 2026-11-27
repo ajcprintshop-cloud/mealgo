@@ -113,12 +113,13 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
     <div class="pair"><div class="card"><h2>Your cart <span class="muted" id="cartSubtitle">(0 items)</span></h2><div id="cartItems" class="muted">Add an item to try the checkout.</div><div class="listrow"><strong>Food subtotal</strong><strong id="subtotal">₱0.00</strong></div><p class="muted">Delivery fee is confirmed separately based on distance and rider cost.</p><button class="primary" onclick="showCheckout()">Continue to checkout</button></div><div class="card"><h3>How ordering works</h3><div class="listrow"><span>1. Choose your food</span><span>🍱</span></div><div class="listrow"><span>2. Enter delivery details</span><span>📍</span></div><div class="listrow"><span>3. Confirm fee and payment</span><span>💵</span></div><div class="listrow"><span>4. Get order status updates</span><span>🛵</span></div></div></div>
     <div id="checkout" class="card hidden" style="margin-top:16px"><h2>Checkout demo</h2><div class="notice">Practice mode only. This creates a temporary sample order inside this preview. It does not notify a real restaurant or rider. Select a demo service area before placing the sample order.</div><div class="formgrid" style="margin-top:14px"><div><label for="custName">Customer name</label><input id="custName" placeholder="Full name" autocomplete="name"></div><div><label for="custPhone">Mobile number</label><input id="custPhone" placeholder="09xx xxx xxxx" inputmode="tel" autocomplete="tel"></div><div><label for="custAddress">Street / landmark</label><input id="custAddress" placeholder="Near…" autocomplete="street-address"></div><div><label for="pay">Payment method</label><select id="pay"><option>Cash on delivery (proposed)</option><option>Digital payment (later)</option></select></div></div><p style="margin-top:14px"><button class="primary" onclick="submitDemoOrder()">Place sample order</button> <button class="ghost" onclick="document.getElementById('checkout').classList.add('hidden')">Close</button></p><div id="checkoutMessage" class="muted" role="status" aria-live="polite"></div></div>
     <div class="card" style="margin-top:16px"><h2>Track your sample orders</h2><p class="muted">Status updates from the demo restaurant and rider appear here. This is not live tracking.</p><div id="customerOrders" class="muted">No sample orders yet. Your demo orders will appear here after checkout.</div></div>
+    <div class="card" style="margin-top:18px"><h2>Become a MEALGO partner</h2><p class="muted">Restaurant owners and independent riders may submit an application. Create an account and log in first. Applications are reviewed by the MEALGO Owner.</p><div class="pair"><div><h3>Restaurant application</h3><form onsubmit="addPartnerLead(event,'restaurant')"><label for="restName">Restaurant / food business name</label><input id="restName" required maxlength="120" placeholder="Business name"><div style="margin-top:10px"><label for="restContact">Contact phone</label><input id="restContact" required maxlength="40" inputmode="tel" placeholder="09xx xxx xxxx"></div><div style="margin-top:10px"><label for="restLocation">Business address / landmark</label><input id="restLocation" required maxlength="200" placeholder="Barangay or nearby landmark"></div><button class="primary" style="margin-top:12px" type="submit">Submit restaurant application</button></form></div><div><h3>Rider application</h3><form onsubmit="addPartnerLead(event,'rider')"><label for="riderName">Full name</label><input id="riderName" required maxlength="120" placeholder="Full name"><div style="margin-top:10px"><label for="riderContact">Mobile number</label><input id="riderContact" required maxlength="40" inputmode="tel" placeholder="09xx xxx xxxx"></div><div style="margin-top:10px"><label for="riderVehicle">Vehicle type</label><select id="riderVehicle" required><option value="">Choose vehicle</option><option>Motorcycle</option><option>Bicycle</option><option>Other</option></select></div><button class="primary" style="margin-top:12px" type="submit">Submit rider application</button></form></div></div><p id="partnerApplicationMessage" class="muted" role="status" aria-live="polite"></p></div>
   </section>
   <section id="admin" class="hidden">
-    <div class="hero"><div><span class="pill">OWNER ONLY · DEMO</span><h2 style="margin-top:12px">One simple place to run the business</h2><p>See sample order activity, partner restaurants and riders in one place. These figures are demo data; no live partners, orders, or revenue are connected.</p></div><div style="font-size:60px">📊</div></div>
+    <div class="hero"><div><span class="pill">OWNER ONLY</span><h2 style="margin-top:12px">MEALGO Owner Dashboard</h2><p>Review partner applications. Restaurant and rider approvals are controlled by the MEALGO Owner account.</p></div><div style="font-size:60px">📊</div></div>
     <div class="statgrid"><div class="stat"><span class="muted">Today's orders</span><strong id="adminOrders">0</strong><span class="muted">Demo session</span></div><div class="stat"><span class="muted">Sample food sales</span><strong id="adminSales">₱0</strong><span class="muted">Not actual revenue</span></div><div class="stat"><span class="muted">Partners onboarded</span><strong>0 / 5</strong><span class="muted">Pilot goal</span></div></div>
     <div class="pair"><div class="card"><h2>Order control</h2><div id="orderList" class="muted">No demo orders yet. Add an item in the Customer app to test the flow.</div><p class="muted" style="margin-top:12px">A real launch needs secure order storage, status history, access controls and backups.</p></div><div class="card"><h2>Quick setup checklist</h2><div class="listrow"><span>Restaurant agreements</span><span class="pill">Pending</span></div><div class="listrow"><span>Rider rates and service zone</span><span class="pill">Pending</span></div><div class="listrow"><span>Customer support contact</span><span class="pill">Pending</span></div><div class="listrow"><span>Business and safety checks</span><span class="pill">Pending</span></div></div></div>
-    <div class="pair"><div class="card"><h2>Restaurant partner interest</h2><p class="muted">Record a sample restaurant lead for the Can-avid pilot. This stays in this browser session only.</p><form onsubmit="addPartnerLead(event,'restaurant')"><div><label for="restName">Restaurant / food business name</label><input id="restName" required placeholder="Business name"></div><div style="margin-top:10px"><label for="restContact">Contact person and mobile</label><input id="restContact" required placeholder="Name · 09xx…"></div><div style="margin-top:10px"><label for="restLocation">Location / landmark</label><input id="restLocation" required placeholder="Barangay or nearby landmark"></div><button class="primary" style="margin-top:12px" type="submit">Save sample lead</button></form></div><div class="card"><h2>Rider partner interest</h2><p class="muted">Record a sample independent rider lead. Do not use this demo to collect sensitive identity documents.</p><form onsubmit="addPartnerLead(event,'rider')"><div><label for="riderName">Rider name</label><input id="riderName" required placeholder="Full name"></div><div style="margin-top:10px"><label for="riderContact">Mobile number</label><input id="riderContact" required inputmode="tel" placeholder="09xx xxx xxxx"></div><div style="margin-top:10px"><label for="riderVehicle">Vehicle type</label><select id="riderVehicle" required><option value="">Choose vehicle</option><option>Motorcycle</option><option>Bicycle</option><option>Other</option></select></div><button class="primary" style="margin-top:12px" type="submit">Save sample lead</button></form></div></div><div class="card" style="margin-top:16px"><h2>Sample partner leads</h2><p class="muted">Temporary demo records only; they disappear when the page session resets. No one is contacted automatically.</p><div id="partnerLeads" class="muted">No sample partner leads yet.</div></div>
+    <div class="card" style="margin-top:16px"><h2>Partner applications</h2><p class="muted">Only the MEALGO Owner can review, approve, or decline applications.</p><div id="partnerLeads" class="muted">Open the Owner Dashboard to load applications.</div></div>
   </section>
   <section id="restaurant" class="hidden">
     <div class="hero"><div><span class="pill">RESTAURANT VIEW · DEMO</span><h2 style="margin-top:12px">Easy for busy food sellers</h2><p>Practice accepting a sample order, preparing food, and marking it ready for pickup. This screen is not connected to real restaurant accounts or notifications.</p></div><div style="font-size:60px">👩‍🍳</div></div>
@@ -129,7 +130,7 @@ footer { text-align:center; color:#718276; font-size:12px; padding:18px; }
     <div class="card"><h2>Assigned deliveries</h2><div class="notice">Rider routine: accept the assigned delivery, collect the food, then mark it Delivered after handing it to the customer.</div><div id="riderOrders" class="muted" style="margin-top:12px">No demo deliveries yet. Accept a sample order in Restaurant view and mark it Ready for pickup.</div><p class="muted" style="margin-top:12px">Practice buttons work in this preview only. Real rider accounts and live location are not connected.</p></div>
   </section>
 </main>
-<footer>MEALGO · Your Cravings, Delivered. · Interactive demo only · Not a live ordering service · Service areas are illustrative and not confirmed live</footer>
+<footer>MEALGO · Your Cravings, Delivered. · Partner applications use Supabase · Ordering and delivery workflow remains a demo · Service areas are illustrative and not confirmed live</footer>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script> 
@@ -180,7 +181,7 @@ mealgoSupabase
 const products = [];
   
 let cart = {};
-let category = 'All', orders = [], orderNo = 1001, partnerLeads = [];
+let category = 'All', orders = [], orderNo = 1001;
   
 async function mealgoLogin() {
   const email = document.getElementById('customerEmail').value.trim();
@@ -315,6 +316,8 @@ async function mealgoUpdatePassword() {
   window.mealgoSignUp = mealgoSignUp;
   window.mealgoForgotPassword = mealgoForgotPassword;
   window.mealgoUpdatePassword = mealgoUpdatePassword;
+  window.addPartnerLead = addPartnerLead;
+  window.mealgoReviewPartnerApplication = mealgoReviewPartnerApplication;
 
 async function mealgoLogout() {
   const message = document.getElementById('authMessage');
@@ -372,7 +375,18 @@ async function loadMealgoMenu() {
   renderCart();
 }
 const money=n=>'₱'+Number(n).toFixed(2);
-function go(page){document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));document.getElementById(page).classList.remove('hidden');document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));window.scrollTo({top:0,behavior:'smooth'});}
+async function go(page){
+  if(page==='admin'){
+    const {data:{user},error}=await mealgoSupabase.auth.getUser();
+    const ownerId='ecf8ee0b-2b80-47ed-9385-c8fd65af421c';
+    if(error||!user||user.id!==ownerId){alert('The MEALGO Owner account is required to open this dashboard.');return;}
+  }
+  document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+  document.getElementById(page).classList.remove('hidden');
+  document.querySelectorAll('[data-page]').forEach(b=>b.classList.toggle('active',b.dataset.page===page));
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(page==='admin') await renderPartnerLeads();
+}
 function setCategory(value,btn){category=value;document.querySelectorAll('#categories .tab').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderMenu();}
 function renderMenu(){const q=(document.getElementById('search')?.value||'').toLowerCase();const list=products.filter(p=>(category==='All'||p.category===category)&&(p.name+' '+p.shop).toLowerCase().includes(q));document.getElementById('menu').innerHTML=list.map(p=>`<article class="card"><div class="foodicon">${escapeText(p.emoji)}</div><div class="muted">${escapeText(p.shop)}</div><h3>${escapeText(p.name)}</h3><div class="cardrow"><span class="price">${money(p.price)}</span><button class="primary" aria-label="Add ${escapeText(p.name)}" onclick="add('${p.id}')">+ Add</button></div></article>`).join('')||'<p>No matching sample items.</p>';}
 function add(id){cart[id]=(cart[id]||0)+1;renderCart();}
@@ -381,8 +395,61 @@ function renderCart(){let count=Object.values(cart).reduce((a,b)=>a+b,0),sub=pro
 function showCheckout(){if(!Object.keys(cart).length){alert('Add a sample menu item first.');return;}document.getElementById('checkout').classList.remove('hidden');document.getElementById('checkout').scrollIntoView({behavior:'smooth',block:'start'});}
 function submitDemoOrder(){const name=document.getElementById('custName').value.trim(),phone=document.getElementById('custPhone').value.trim(),address=document.getElementById('custAddress').value.trim(),serviceArea=document.getElementById('barangay').value;if(!serviceArea){document.getElementById('checkoutMessage').textContent='Please choose a demo service area first. These locations are examples only, not confirmed live delivery areas.';document.getElementById('barangay').focus();return;}if(!name||!phone||!address){document.getElementById('checkoutMessage').textContent='Please enter the customer name, mobile number and delivery landmark to continue.';return;}const items=products.filter(p=>cart[p.id]).map(p=>({name:p.name,shop:p.shop,qty:cart[p.id],price:p.price}));if(!items.length){document.getElementById('checkoutMessage').textContent='Your cart is empty.';return;}const subtotal=items.reduce((sum,p)=>sum+p.price*p.qty,0);orders.unshift({id:orderNo++,name,phone,address,serviceArea,payment:document.getElementById('pay').value,items,subtotal,status:'New order — waiting for restaurant',created:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});cart={};renderCart();renderOrders();document.getElementById('checkoutMessage').textContent='Sample order created in this demo only. It is not sent to a real restaurant or rider. You can practice the status flow in Restaurant, Owner, and Rider views.';document.getElementById('checkout').classList.add('hidden');go('restaurant');}
 function updateOrder(id,status){const order=orders.find(o=>o.id===id);if(!order)return;order.status=status;renderOrders();}
-function addPartnerLead(event,type){event.preventDefault();const isRestaurant=type==='restaurant';const name=document.getElementById(isRestaurant?'restName':'riderName').value.trim();const contact=document.getElementById(isRestaurant?'restContact':'riderContact').value.trim();const detail=isRestaurant?document.getElementById('restLocation').value.trim():document.getElementById('riderVehicle').value;partnerLeads.unshift({type,name,contact,detail,created:new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})});renderPartnerLeads();event.target.reset();}
-function renderPartnerLeads(){const el=document.getElementById('partnerLeads');if(!el)return;el.innerHTML=partnerLeads.length?partnerLeads.map(p=>`<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>${p.type==='restaurant'?'Restaurant lead':'Rider lead'}: ${escapeText(p.name)}</strong><span class="pill">Demo lead</span></div><p class="muted" style="margin:8px 0">Contact: ${escapeText(p.contact)}<br>${p.type==='restaurant'?'Location':'Vehicle'}: ${escapeText(p.detail)}<br>Recorded: ${escapeText(p.created)}</p></article>`).join(''):'No sample partner leads yet.';}
+async function addPartnerLead(event,type){
+  event.preventDefault();
+  const message=document.getElementById('partnerApplicationMessage');
+  const {data:{user},error:authError}=await mealgoSupabase.auth.getUser();
+  if(authError||!user){message.textContent='Please create an account or log in before submitting a partner application.';return;}
+  const isRestaurant=type==='restaurant';
+  const name=document.getElementById(isRestaurant?'restName':'riderName').value.trim();
+  const contact=document.getElementById(isRestaurant?'restContact':'riderContact').value.trim();
+  const detail=document.getElementById(isRestaurant?'restLocation':'riderVehicle').value.trim();
+  if(!name||!contact||!detail){message.textContent='Please complete all application fields.';return;}
+  message.textContent='Submitting your application...';
+  const {error}=await mealgoSupabase.from('partner_applications').insert({
+    applicant_user_id:user.id,
+    application_type:type,
+    business_or_full_name:name,
+    contact_phone:contact,
+    service_area:'Can-avid, Eastern Samar',
+    location_or_vehicle:detail
+  });
+  if(error){console.error('MEALGO partner application error:',error);message.textContent='Unable to submit application: '+error.message;return;}
+  message.textContent='Your '+type+' application was submitted successfully. The MEALGO Owner will review it.';
+  event.target.reset();
+}
+
+async function renderPartnerLeads(){
+  const el=document.getElementById('partnerLeads');
+  if(!el)return;
+  const {data:{user},error:authError}=await mealgoSupabase.auth.getUser();
+  const ownerId='ecf8ee0b-2b80-47ed-9385-c8fd65af421c';
+  if(authError||!user||user.id!==ownerId){el.textContent='Only the MEALGO Owner can view partner applications.';return;}
+  el.textContent='Loading partner applications...';
+  const {data,error}=await mealgoSupabase.from('partner_applications')
+    .select('id, application_type, business_or_full_name, contact_phone, service_area, location_or_vehicle, review_status, created_at')
+    .order('created_at',{ascending:false});
+  if(error){console.error('MEALGO partner applications error:',error);el.textContent='Unable to load applications: '+error.message;return;}
+  if(!data||data.length===0){el.textContent='No partner applications submitted yet.';return;}
+  el.innerHTML=data.map(p=>`<article class="card" style="margin:10px 0;padding:13px">
+    <div class="cardrow"><strong>${escapeText(p.application_type==='restaurant'?'Restaurant':'Rider')}: ${escapeText(p.business_or_full_name)}</strong><span class="pill">${escapeText(p.review_status)}</span></div>
+    <p class="muted" style="margin:8px 0">Contact: ${escapeText(p.contact_phone)}<br>Service area: ${escapeText(p.service_area)}<br>${p.application_type==='restaurant'?'Address':'Vehicle'}: ${escapeText(p.location_or_vehicle||'Not provided')}</p>
+    ${['pending','contacted'].includes(p.review_status)?`<button class="primary" onclick="mealgoReviewPartnerApplication('${p.id}','approved')">Approve</button> <button class="ghost" onclick="mealgoReviewPartnerApplication('${p.id}','contacted')">Contacted</button> <button class="ghost" onclick="mealgoReviewPartnerApplication('${p.id}','declined')">Decline</button>`:''}
+  </article>`).join('');
+}
+
+async function mealgoReviewPartnerApplication(applicationId,decision){
+  if(!['approved','contacted','declined'].includes(decision)){alert('Invalid application decision.');return;}
+  const {data:{user},error:authError}=await mealgoSupabase.auth.getUser();
+  const ownerId='ecf8ee0b-2b80-47ed-9385-c8fd65af421c';
+  if(authError||!user||user.id!==ownerId){alert('Only the MEALGO Owner can review applications.');return;}
+  if(!confirm('Are you sure you want to '+decision+' this application?'))return;
+  const {error}=await mealgoSupabase.rpc('mealgo_review_partner_application',{p_application_id:applicationId,p_decision:decision});
+  if(error){console.error('MEALGO application review error:',error);alert('Unable to process application: '+error.message);return;}
+  alert('Application successfully marked as '+decision+'.');
+  await renderPartnerLeads();
+}
+
 function orderCard(o,role){const items=o.items.map(i=>`${i.qty} × ${i.name}`).join(', ');let actions='';if(role==='restaurant'&&o.status==='New order — waiting for restaurant')actions=`<button class="primary" onclick="updateOrder(${o.id},'Accepted by restaurant — preparing')">Accept order</button> <button class="ghost" onclick="updateOrder(${o.id},'Rejected by restaurant')">Reject</button>`;else if(role==='restaurant'&&o.status==='Accepted by restaurant — preparing')actions=`<button class="primary" onclick="updateOrder(${o.id},'Ready for pickup — assign a rider')">Ready for pickup</button>`;else if(role==='rider'&&o.status==='Ready for pickup — assign a rider')actions=`<button class="primary" onclick="updateOrder(${o.id},'Rider picked up — on the way')">Picked up</button>`;else if(role==='rider'&&o.status==='Rider picked up — on the way')actions=`<button class="primary" onclick="updateOrder(${o.id},'Delivered — completed')">Mark delivered</button>`;return `<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>Order #${o.id}</strong><span class="pill">${o.created}</span></div><p class="muted" style="margin:8px 0">${items}</p><div><strong>${money(o.subtotal)}</strong> food subtotal</div><p class="muted" style="margin:7px 0">Customer: ${escapeText(o.name)} · ${escapeText(o.phone)}<br>Service area: ${escapeText(o.serviceArea||'Not selected')}<br>Landmark: ${escapeText(o.address)}<br>Payment: ${escapeText(o.payment)}</p><p><strong>Status:</strong> ${escapeText(o.status)}</p>${actions}</article>`;}
 function customerOrderCard(o){const items=o.items.map(i=>`${i.qty} × ${i.name}`).join(', ');return `<article class="card" style="margin:10px 0;padding:13px"><div class="cardrow"><strong>Order #${o.id}</strong><span class="pill">${escapeText(o.created)}</span></div><p class="muted" style="margin:8px 0">${escapeText(items)}</p><p class="muted">Service area: ${escapeText(o.serviceArea)}</p><p><strong>Food subtotal:</strong> ${money(o.subtotal)}</p><p><strong>Current status:</strong> ${escapeText(o.status)}</p><span class="muted">Demo status only · no real delivery tracking</span></article>`;}
 function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
