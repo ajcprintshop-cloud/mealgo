@@ -154,22 +154,44 @@ const mealgoSupabase = window.supabase.createClient(
 const passwordResetForm = document.getElementById('passwordResetForm');
 const passwordResetMessage = document.getElementById('passwordResetMessage');
 
-// Keep the form hidden until Supabase confirms a password-recovery event.
+function showMealgoPasswordReset(message) {
+  passwordResetForm.style.display = 'block';
+  passwordResetMessage.textContent = message || 'Recovery verified. Enter your new password below.';
+}
+
+// Supabase normally exchanges the PKCE code automatically because
+// detectSessionInUrl is enabled. Listen for the recovery event as the primary path.
 passwordResetForm.style.display = 'none';
-
 mealgoSupabase.auth.onAuthStateChange((event, session) => {
-  if (event === 'PASSWORD_RECOVERY') {
-    if (!session) {
-      passwordResetForm.style.display = 'none';
-      passwordResetMessage.textContent =
-        'The recovery session could not be verified. Open the newest recovery email in this same browser and try again.';
-      return;
-    }
-
-    passwordResetForm.style.display = 'block';
-    passwordResetMessage.textContent = 'Recovery verified. Enter your new password below.';
+  if (event === 'PASSWORD_RECOVERY' && session) {
+    showMealgoPasswordReset('Recovery verified. Enter your new password below.');
   }
 });
+
+// Fallback: after the automatic URL exchange finishes, confirm that a session
+// exists whenever Supabase redirects back with ?code=... . This prevents the
+// form from remaining hidden if the event arrives before the UI listener settles.
+(async function handleMealgoRecoveryRedirect() {
+  const currentUrl = new URL(window.location.href);
+  const hasRecoveryCode = currentUrl.searchParams.has('code');
+  if (!hasRecoveryCode) return;
+
+  passwordResetMessage.textContent = 'Verifying your password recovery link...';
+
+  const { data, error } = await mealgoSupabase.auth.getSession();
+  if (error || !data.session) {
+    console.error('MEALGO recovery redirect verification failed:', error || 'No active session');
+    passwordResetMessage.textContent = 'This recovery link could not be verified or has expired. Request one new password reset email and open it in this same browser.';
+    return;
+  }
+
+  showMealgoPasswordReset('Recovery verified. Enter your new password below.');
+
+  // Remove the one-time authorization code from the visible address bar.
+  currentUrl.searchParams.delete('code');
+  window.history.replaceState({}, document.title,
+    currentUrl.pathname + currentUrl.search + currentUrl.hash);
+})();
 
 mealgoSupabase
   .from('menu_items')
